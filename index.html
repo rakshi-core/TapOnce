@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TapOnce — One Tap. Zero Exposure. Instant Benefits.</title>
+  <meta name="description" content="TapOnce is a privacy-first student benefit wallet prototype: prove eligibility and pay with a discount in one simulated offline NFC tap." />
+  <meta name="theme-color" content="#070b1a" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%237c5cff'/%3E%3Cpath d='M20 24a16 16 0 0 1 0 16M28 20a22 22 0 0 1 0 24M36 16a28 28 0 0 1 0 32' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%22TapOnce%22%2C%22short_name%22%3A%22TapOnce%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23070b1a%22%2C%22theme_color%22%3A%22%23070b1a%22%2C%22start_url%22%3A%22.%22%7D" />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="bg-blobs" aria-hidden="true"><i></i><i></i><i></i></div>
+
+  <!-- ================= HEADER ================= -->
+  <header class="topbar">
+    <a class="brand" href="#/home" aria-label="TapOnce home">
+      <span class="brand-mark">
+        <svg viewBox="0 0 64 64" width="30" height="30" aria-hidden="true"><rect width="64" height="64" rx="16" fill="url(#bg)"/><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7c5cff"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs><path d="M20 24a16 16 0 0 1 0 16M28 20a22 22 0 0 1 0 24M36 16a28 28 0 0 1 0 32" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
+      </span>
+      <span class="brand-name">Tap<b>Once</b></span>
+    </a>
+
+    <nav id="mainNav" class="nav" aria-label="Main navigation">
+      <a href="#/home" data-page="home">Home</a>
+      <a href="#/wallet" data-page="wallet">Wallet</a>
+      <a href="#/merchant" data-page="merchant">Merchant</a>
+      <a href="#/admin" data-page="admin">University</a>
+      <a href="#/security" data-page="security">Security</a>
+      <a href="#/settlement" data-page="settlement">Settlement</a>
+      <a href="#/analytics" data-page="analytics">Analytics</a>
+    </nav>
+
+    <div class="top-actions">
+      <div id="userChip" class="user-chip" hidden>
+        <span id="userAv" class="avatar" aria-hidden="true"></span>
+        <span class="u-meta"><b id="userName"></b><small id="userRole"></small></span>
+        <button id="logoutBtn" class="btn btn-sm btn-ghost" type="button">Sign out</button>
+      </div>
+      <button id="netToggle" class="net-pill online" type="button" aria-label="Toggle online or offline mode">
+        <span class="dot"></span><span id="netLabel">Online</span>
+        <span id="netPending" class="pending-badge" hidden>0</span>
+      </button>
+      <button id="menuBtn" class="icon-btn menu-btn" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ================= HOME ================= -->
+    <section class="page" id="page-home" aria-label="Home">
+      <div class="hero">
+        <div class="hero-copy">
+          <span class="kicker">Hack Build’26 · FinTech Track · Team NovaStack</span>
+          <h1>Your Student Status. <span class="grad-text">Verified in One Tap.</span></h1>
+          <p class="lead">Show a canteen or bookstore that you’re eligible for a campus discount — <b>without showing your name, photo or roll number</b>. It even works when the Wi-Fi doesn’t.</p>
+          <div class="hero-cta">
+            <button class="btn btn-primary btn-lg" data-go="wallet" type="button">Try the Demo →</button>
+            <button class="btn btn-ghost btn-lg" data-scroll="how" type="button">Explore How It Works</button>
+          </div>
+          <ul class="chips-row">
+            <li class="chip c-violet">🔒 Private eligibility</li>
+            <li class="chip c-amber">📴 Offline ready</li>
+            <li class="chip c-teal">⚡ One-tap benefits</li>
+          </ul>
+        </div>
+
+        <div class="hero-visual" aria-hidden="true">
+          <div class="hv-wallet">
+            <div class="hv-chip"></div>
+            <b>CampusCoder</b>
+            <small>Nova Demo University</small>
+            <span class="hv-badge">✓ Eligible</span>
+          </div>
+          <div class="hv-link">
+            <span class="ring"></span><span class="ring"></span><span class="ring"></span>
+            <svg class="hv-icon" viewBox="0 0 64 64" width="44" height="44"><path d="M20 24a16 16 0 0 1 0 16M28 20a22 22 0 0 1 0 24M36 16a28 28 0 0 1 0 32" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/></svg>
+          </div>
+          <div class="hv-terminal">
+            <small>Sunrise Canteen</small>
+            <s>₹100</s>
+            <b>₹90</b>
+            <span>10% student discount</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="ten-sec">
+        <article class="card tint-pink"><span class="emoji">😬</span><h3>The problem</h3><p>Students flash a full ID card — name, photo, roll number — just to save ₹10.</p></article>
+        <article class="card tint-violet"><span class="emoji">🛡️</span><h3>The privacy win</h3><p>The merchant only learns <b>“eligible: student”</b>. Nothing else.</p></article>
+        <article class="card tint-cyan"><span class="emoji">👆</span><h3>One tap</h3><p>Eligibility proof and discounted payment happen in a single tap.</p></article>
+        <article class="card tint-amber"><span class="emoji">📴</span><h3>Works offline</h3><p>Taps queue safely on-device and sync when the network returns.</p></article>
+      </div>
+
+      <div class="section-head" id="how"><h2>How it works in 3 steps</h2><p class="muted">Watch the glow travel through the flow.</p></div>
+      <div class="steps-3">
+        <div class="how-step s1"><span class="num">1</span><h3>Tap</h3><p>Hold your wallet near the merchant terminal. The terminal sends a fresh challenge.</p></div>
+        <div class="how-step s2"><span class="num">2</span><h3>Prove privately</h3><p>The wallet answers with a university-signed eligibility result — not your identity.</p></div>
+        <div class="how-step s3"><span class="num">3</span><h3>Save instantly</h3><p>Discount applied, receipt issued. Offline? It’s queued and synced later.</p></div>
+      </div>
+
+      <div class="section-head"><h2>Why students will love it</h2></div>
+      <div class="grid-3">
+        <article class="card feature"><span class="ico g1">🔐</span><h3>Private Eligibility</h3><p>Share the result of a check, never the document behind it.</p></article>
+        <article class="card feature"><span class="ico g2">📶</span><h3>Offline Ready</h3><p>Dead zone in the canteen? Pay anyway within safe offline limits.</p></article>
+        <article class="card feature"><span class="ico g3">🎁</span><h3>One-Tap Benefits</h3><p>Rules per shop — 10% canteen, 8% books, 5% stationery — applied once, transparently.</p></article>
+      </div>
+
+      <div class="cta-band card">
+        <div><h2>Ready to see it live?</h2><p class="muted">Run all four judge scenarios in under two minutes.</p></div>
+        <button class="btn btn-primary btn-lg" data-go="wallet" type="button">Open the Wallet</button>
+      </div>
+    </section>
+
+    <!-- ================= WALLET ================= -->
+    <section class="page" id="page-wallet" aria-label="Student wallet">
+      <div class="page-head">
+        <div><h2>Student Wallet</h2><p class="muted">Fictional demo identity · credential is a simulated university-signed token.</p></div>
+        <div class="head-actions">
+          <button class="btn btn-ghost" data-action="edit-identity" type="button">✏️ Demo identity</button>
+          <button class="btn btn-ghost" data-action="top-up" type="button">➕ Top up ₹500</button>
+        </div>
+      </div>
+
+      <div class="wallet-grid">
+        <div class="stack">
+          <div id="walletCard"></div>
+          <button id="tapBtn" class="btn btn-tap" data-action="open-tap" type="button">
+            <span class="tap-pulse"></span><span class="tap-txt">👆 Tap to Pay</span>
+          </button>
+          <div id="netPanel" class="card"></div>
+        </div>
+        <div class="stack">
+          <div class="card ai-card" id="aiInsights"></div>
+          <div class="card"><h3>🎁 Campus discounts</h3><div id="discountList"></div></div>
+          <div class="card"><h3>🧾 Recent transactions</h3><div id="walletHistory"></div></div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card" id="scenarioPanel">
+          <h3>🎬 Judge scenarios</h3>
+          <p class="muted small">One click each — they run through the real tap flow.</p>
+          <div class="scenario-list">
+            <button class="scn" data-action="scenario-1" type="button"><b>1</b><span>Offline lunch ₹100<small>Eligible → discount → queued</small></span></button>
+            <button class="scn" data-action="scenario-2" type="button"><b>2</b><span>Reconnect &amp; sync<small>Queue → simulated ledger</small></span></button>
+            <button class="scn" data-action="scenario-3" type="button"><b>3</b><span>Duplicate replay<small>Same reference rejected</small></span></button>
+            <button class="scn" data-action="scenario-4" type="button"><b>4</b><span>Revoked credential<small>Rejected with a reason</small></span></button>
+          </div>
+          <button class="btn btn-danger-ghost" data-action="reset" type="button">↺ Reset demo to initial state</button>
+        </div>
+
+        <div class="card" id="privacyPanel">
+          <h3>🛡️ What the merchant sees</h3>
+          <div class="privacy-cols">
+            <div class="pcol yes">
+              <h4>✅ Merchant receives</h4>
+              <ul><li>Eligibility result</li><li>Discount category</li><li>Transaction reference</li><li>Amount &amp; payment status</li></ul>
+            </div>
+            <div class="pcol no">
+              <h4>🚫 Merchant never gets</h4>
+              <ul><li>Student photograph</li><li>Full student ID</li><li>Roll number</li><li>Profile details</li></ul>
+            </div>
+          </div>
+          <p class="note">The proof here is a <b>real ECDSA signature check</b> (browser Web Crypto) on a locally generated “university” key. It is <b>not</b> a zero-knowledge proof and not a genuine university credential.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= MERCHANT ================= -->
+    <section class="page" id="page-merchant" aria-label="Merchant dashboard">
+      <div class="page-head">
+        <div><h2>Merchant Dashboard</h2><p class="muted">Restricted view — merchants never see student identities.</p></div>
+        <label class="field inline"><span>Demo account</span><select id="merchantSelect"></select></label>
+      </div>
+      <div id="merchantKpis" class="kpis"></div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>🎲 Merchant challenge generator</h3>
+          <p class="muted small">A fresh one-time nonce stops a captured tap from being replayed. The next tap at this merchant will use it.</p>
+          <button class="btn btn-primary" data-action="gen-challenge" type="button">Generate challenge</button>
+          <div id="challengeBox" class="challenge-box"></div>
+        </div>
+        <div class="card"><h3>🧾 Recent receipts</h3><div id="merchantReceipts"></div></div>
+      </div>
+    </section>
+
+    <!-- ================= ADMIN ================= -->
+    <section class="page" id="page-admin" aria-label="University admin">
+      <div class="page-head"><div><h2>University Admin</h2><p class="muted">Administrative privileges · fictional students only · prototype role.</p></div></div>
+      <div id="adminStats" class="kpis"></div>
+      <div class="card">
+        <h3>🎓 Demo credentials</h3>
+        <div class="table-wrap"><table class="table" id="credTable"></table></div>
+        <form id="credForm" class="inline-form" novalidate>
+          <label class="field"><span>New fictional nickname</span><input id="credName" maxlength="20" placeholder="e.g. Riya (demo)" autocomplete="off" /></label>
+          <label class="field"><span>Valid until</span><input id="credExpiry" type="date" /></label>
+          <button class="btn btn-primary" type="submit">Issue credential</button>
+        </form>
+        <p class="form-error" id="credError" role="alert"></p>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>🎯 Discount rules</h3>
+          <form id="ruleForm" novalidate><div id="ruleFields" class="rule-fields"></div><button class="btn btn-primary" type="submit">Save rules</button></form>
+          <p class="form-error" id="ruleError" role="alert"></p>
+        </div>
+        <div class="card"><h3>🏪 Merchant activity</h3><div id="adminMerchants"></div></div>
+      </div>
+      <div class="card"><h3>🚨 Security events</h3><div id="adminEvents"></div></div>
+    </section>
+
+    <!-- ================= SECURITY ================= -->
+    <section class="page" id="page-security" aria-label="Security center">
+      <div class="page-head"><div><h2>Security Center</h2><p class="muted">Replay protection, limits and an audit trail.</p></div></div>
+      <div class="grid-2">
+        <div class="card">
+          <h3>🧪 Attack simulator</h3>
+          <p class="muted small">Replays the latest accepted transaction (same reference + same challenge).</p>
+          <div class="btn-row">
+            <button class="btn btn-danger" data-action="dup-test" type="button">Test Duplicate Transaction</button>
+            <button class="btn btn-ghost" data-action="tamper-test" type="button">Inject tampered record</button>
+          </div>
+          <div id="dupResult" class="result-box" hidden></div>
+        </div>
+        <div class="card">
+          <h3>💳 Offline spending limits</h3>
+          <form id="limitForm" novalidate>
+            <label class="field"><span>Max per offline transaction (₹)</span><input id="limTx" type="number" min="1" max="5000" step="1" /></label>
+            <label class="field"><span>Max total queued offline (₹)</span><input id="limTotal" type="number" min="1" max="20000" step="1" /></label>
+            <button class="btn btn-primary" type="submit">Save limits</button>
+          </form>
+          <p class="form-error" id="limitError" role="alert"></p>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="card"><h3>🎲 Challenge / nonce tracker</h3><div id="challengeLog"></div></div>
+        <div class="card"><h3>🪪 Credential status</h3><div id="credStatusPanel"></div></div>
+      </div>
+      <div class="card"><h3>📜 Transaction audit trail</h3><div id="auditTrail"></div></div>
+      <div class="note wide"><b>Honest limits:</b> real offline double-spend prevention needs secure hardware (secure element), protected monotonic counters and protocol-level safeguards. Browser LocalStorage alone cannot stop a determined attacker from tampering with or cloning state.</div>
+    </section>
+
+    <!-- ================= SETTLEMENT ================= -->
+    <section class="page" id="page-settlement" aria-label="Settlement simulator">
+      <div class="page-head">
+        <div><h2>DRUNIX Settlement Simulator</h2><p class="muted">Simulated network &amp; records — no real DRUNIX integration, no real blockchain hashes.</p></div>
+        <button class="btn btn-primary btn-lg" data-action="run-settlement" type="button">▶ Run Settlement Demo</button>
+      </div>
+
+      <div class="flow" id="flowSettle" aria-label="Settlement flow">
+        <div class="flow-node"><span>🏛️</span><b>University Credential Issuer</b></div><div class="flow-link"><i></i></div>
+        <div class="flow-node"><span>📱</span><b>Student Wallet</b></div><div class="flow-link"><i></i></div>
+        <div class="flow-node"><span>🏪</span><b>Merchant Terminal</b></div><div class="flow-link"><i></i></div>
+        <div class="flow-node"><span>📥</span><b>Offline Queue</b></div><div class="flow-link"><i></i></div>
+        <div class="flow-node hot"><span>🌐</span><b>DRUNIX Settlement (simulated)</b></div>
+      </div>
+
+      <div id="settleSummary" class="kpis"></div>
+
+      <div class="grid-2">
+        <div class="card network-card">
+          <h3>🕸️ Multi-organization network (simulated)</h3>
+          <svg viewBox="0 0 420 300" class="net-svg" role="img" aria-label="Simulated settlement network with DRUNIX hub">
+            <g class="net-lines">
+              <line x1="210" y1="150" x2="70" y2="50"/><line x1="210" y1="150" x2="350" y2="50"/>
+              <line x1="210" y1="150" x2="50" y2="190"/><line x1="210" y1="150" x2="370" y2="190"/>
+              <line x1="210" y1="150" x2="210" y2="270"/>
+            </g>
+            <g class="net-nodes">
+              <circle cx="70" cy="50" r="26" class="n-uni"/><text x="70" y="55">🏛️</text><text x="70" y="92" class="lbl">University</text>
+              <circle cx="350" cy="50" r="26" class="n-m1"/><text x="350" y="55">🍛</text><text x="350" y="92" class="lbl">Canteen</text>
+              <circle cx="50" cy="190" r="26" class="n-m2"/><text x="50" y="195">📚</text><text x="50" y="232" class="lbl">Bookstore</text>
+              <circle cx="370" cy="190" r="26" class="n-m3"/><text x="370" y="195">✏️</text><text x="370" y="232" class="lbl">Stationery</text>
+              <circle cx="210" cy="270" r="22" class="n-bank"/><text x="210" y="275">🏦</text><text x="266" y="275" class="lbl">Bank (sim.)</text>
+              <circle cx="210" cy="150" r="38" class="n-hub"/><text x="210" y="147" class="hub-t">DRUNIX</text><text x="210" y="163" class="hub-s">simulated</text>
+            </g>
+          </svg>
+        </div>
+        <div class="card"><h3>📒 Settlement ledger (simulated)</h3><div id="ledgerTable"></div></div>
+      </div>
+
+      <div class="grid-3">
+        <div class="card"><h3>⏳ Pending</h3><div id="pendingList"></div></div>
+        <div class="card"><h3>✅ Synced / accepted</h3><div id="syncedList"></div></div>
+        <div class="card"><h3>⛔ Rejected</h3><div id="rejectedList"></div></div>
+      </div>
+    </section>
+
+    <!-- ================= ANALYTICS ================= -->
+    <section class="page" id="page-analytics" aria-label="Analytics">
+      <div class="page-head"><div><h2>Analytics &amp; Impact</h2><p class="muted">Every number is calculated from your actual demo interactions — nothing is invented.</p></div></div>
+      <div id="analyticsKpis" class="kpis"></div>
+      <div class="grid-2">
+        <div class="card"><h3>📊 Transactions by merchant</h3><div id="chartMerchants"></div></div>
+        <div class="card"><h3>🍩 Settlement status mix</h3><div id="chartDonut"></div></div>
+      </div>
+      <div class="card" id="riskMonitor"></div>
+      <div class="card"><h3>⏱️ Live activity timeline</h3><div id="activityTimeline"></div></div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p><b>TapOnce</b> · Team NovaStack · Hack Build’26 FinTech Track</p>
+    <p class="muted small">Prototype only. Simulated: NFC, university credential, proof verification, offline rail, DRUNIX settlement, browser-side login. AI runs on-device. No real money, banking or personal data.</p>
+  </footer>
+
+  <!-- ================= MODALS ================= -->
+  <div class="modal" id="tapModal" hidden role="dialog" aria-modal="true" aria-labelledby="tapTitle">
+    <div class="backdrop" data-close="tapModal"></div>
+    <div class="sheet sheet-lg">
+      <button class="close" data-close="tapModal" type="button" aria-label="Close">✕</button>
+
+      <div id="tapSelect" class="tap-view">
+        <h2 id="tapTitle">👆 Tap to Pay</h2>
+        <p class="muted">Pick a campus merchant and enter the bill.</p>
+        <div id="tapMerchants" class="merchant-pick" role="radiogroup" aria-label="Merchant"></div>
+        <div class="amount-row">
+          <label class="field"><span>Bill amount (₹)</span><input id="tapAmount" type="number" inputmode="decimal" min="1" max="5000" step="0.01" value="100" /></label>
+          <div class="chips" id="tapChips"></div>
+        </div>
+        <div id="tapCred" class="cred-banner"></div>
+        <div id="tapPreview" class="calc"></div>
+        <p class="form-error" id="tapError" role="alert"></p>
+        <button class="btn btn-primary btn-lg block" id="tapStart" type="button">Hold near terminal · Start tap</button>
+      </div>
+
+      <div id="tapRun" class="tap-view" hidden>
+        <h2>Tapping…</h2>
+        <div class="stage" id="tapStage">
+          <div class="dev dev-wallet"><span>📱</span><b>Your wallet</b><small id="stageWallet">Ready</small></div>
+          <div class="stage-link"><span class="ring"></span><span class="ring"></span><span class="ring"></span><span class="ring"></span></div>
+          <div class="dev dev-term"><span>🏪</span><b id="stageMerchant">Terminal</b><small id="stageTerm">Waiting</small></div>
+        </div>
+        <ol class="steps-list" id="tapSteps"></ol>
+        <div class="sees"><h4>👀 Merchant terminal sees</h4><ul id="tapSees"></ul></div>
+      </div>
+
+      <div id="tapResult" class="tap-view" hidden></div>
+    </div>
+  </div>
+
+  <div class="modal" id="receiptModal" hidden role="dialog" aria-modal="true" aria-labelledby="receiptTitle">
+    <div class="backdrop" data-close="receiptModal"></div>
+    <div class="sheet">
+      <button class="close" data-close="receiptModal" type="button" aria-label="Close">✕</button>
+      <h2 id="receiptTitle">Receipt</h2>
+      <div id="receiptBody"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="syncModal" hidden role="dialog" aria-modal="true" aria-labelledby="syncTitle">
+    <div class="backdrop"></div>
+    <div class="sheet">
+      <h2 id="syncTitle">Synchronizing</h2>
+      <p class="muted small">Local simulation — records move to a simulated settlement ledger.</p>
+      <div class="progress"><div id="syncBar" class="bar"></div></div>
+      <ul id="syncList" class="sync-list"></ul>
+      <div id="syncSummary" class="result-box" hidden></div>
+      <button id="syncClose" class="btn btn-primary block" type="button" disabled>Working…</button>
+    </div>
+  </div>
+
+  <div class="modal" id="identityModal" hidden role="dialog" aria-modal="true" aria-labelledby="idTitle">
+    <div class="backdrop" data-close="identityModal"></div>
+    <div class="sheet">
+      <button class="close" data-close="identityModal" type="button" aria-label="Close">✕</button>
+      <h2 id="idTitle">Demo identity</h2>
+      <p class="muted small">Fictional information only. Never enter a real name, ID or roll number.</p>
+      <form id="identityForm" novalidate>
+        <label class="field"><span>Nickname</span><input id="idNick" maxlength="20" autocomplete="off" /></label>
+        <label class="field"><span>University (fictional)</span><input id="idUni" maxlength="40" autocomplete="off" /></label>
+        <label class="field"><span>Programme (fictional)</span><input id="idProg" maxlength="40" autocomplete="off" /></label>
+        <label class="field"><span>Credential used by this wallet</span><select id="idCred"></select></label>
+        <p class="form-error" id="idError" role="alert"></p>
+        <button class="btn btn-primary block" type="submit">Save identity</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= AUTH GATE ================= -->
+  <div id="authGate" class="auth-gate" role="dialog" aria-modal="true" aria-labelledby="authTitle" hidden>
+    <div class="auth-card">
+      <div class="auth-brand"><span class="brand-name">Tap<b>Once</b></span><small class="muted">One Tap. Zero Exposure.</small></div>
+      <div class="auth-tabs" role="tablist">
+        <button id="tabLogin" type="button" role="tab" aria-selected="true">Sign in</button>
+        <button id="tabRegister" type="button" role="tab" aria-selected="false">Create account</button>
+      </div>
+      <h2 id="authTitle">Sign in</h2>
+      <p id="authInsecure" class="note" hidden>Secure login needs Web Crypto, which browsers only provide on <b>localhost</b> or HTTPS. Open the app through Live Server / <code>python -m http.server</code>.</p>
+      <form id="loginForm" novalidate>
+        <label class="field"><span>Username</span><input id="loginUser" autocomplete="username" maxlength="20" /></label>
+        <label class="field"><span>Password</span><input id="loginPass" type="password" autocomplete="current-password" maxlength="64" /></label>
+        <p class="form-error" id="loginError" role="alert"></p>
+        <button id="loginSubmit" class="btn btn-primary btn-lg block" type="submit">Sign in</button>
+      </form>
+      <form id="registerForm" novalidate hidden>
+        <label class="field"><span>Username</span><input id="regUser" autocomplete="username" maxlength="20" placeholder="3–20 letters or numbers" /></label>
+        <label class="field"><span>Password</span><input id="regPass" type="password" autocomplete="new-password" maxlength="64" /></label>
+        <div class="pw-meter" aria-hidden="true"><i id="pwBar"></i></div>
+        <small id="pwHint" class="muted">At least 8 characters with a letter and a number.</small>
+        <label class="field" style="margin-top:12px"><span>Confirm password</span><input id="regPass2" type="password" autocomplete="new-password" maxlength="64" /></label>
+        <label class="field"><span>I am a…</span>
+          <select id="regRole"><option value="student">🎓 Student</option><option value="merchant">🏪 Merchant</option><option value="university">🏛️ University admin</option></select></label>
+        <p class="form-error" id="regError" role="alert"></p>
+        <button id="regSubmit" class="btn btn-primary btn-lg block" type="submit">Create account</button>
+      </form>
+      <p class="note">Prototype login: passwords are salted &amp; hashed (PBKDF2-SHA256) and stored in this browser only. Use a throw-away password. Not production authentication.</p>
+    </div>
+  </div>
+
+  <!-- ================= AI ASSISTANT ================= -->
+  <button id="aiFab" class="ai-fab" type="button" aria-label="Open AI assistant" aria-expanded="false" hidden>✨ <span>Ask AI</span></button>
+  <section id="aiPanel" class="ai-panel" hidden role="dialog" aria-label="TapOnce AI assistant">
+    <header><div><b>✨ TapOnce AI</b><small>on-device · no cloud · answers from your live data</small></div><button id="aiClose" class="close-sm" type="button" aria-label="Close assistant">✕</button></header>
+    <div id="aiLog" class="ai-log" aria-live="polite"></div>
+    <div id="aiChips" class="ai-chips"></div>
+    <form id="aiForm" class="ai-form"><input id="aiInput" maxlength="200" placeholder="Ask about savings, risk, offline…" autocomplete="off" aria-label="Ask the AI assistant" /><button class="btn btn-primary btn-sm" type="submit">Send</button></form>
+  </section>
+
+  <div id="toasts" class="toasts" aria-live="polite" aria-atomic="false"></div>
+  <canvas id="confetti" aria-hidden="true"></canvas>
+
+  <script src="auth.js" defer></script>
+  <script src="ai-engine.js" defer></script>
+  <script src="script.js" defer></script>
+</body>
+</html>
